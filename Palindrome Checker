@@ -1,0 +1,6 @@
+function palindrome(str) {
+  let checkStr = str.toLowerCase().split("").filter((alpha) => /[a-z0-9]/g.test(alpha));
+  let backward = checkStr.reduce((backArr,alpha) => [alpha,...backArr],[]);
+
+  return checkStr.every((element,index) => element === backward[index]);
+}
