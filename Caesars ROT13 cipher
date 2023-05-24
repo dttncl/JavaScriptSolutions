@@ -1,0 +1,6 @@
+function rot13(str) {
+  let alphaArr = str.toUpperCase().split("");
+  return alphaArr.map((alpha) => alpha.replace(/\w/g, (alpha) => String.fromCharCode(alpha.charCodeAt(0) < 78 ? alpha.charCodeAt(0) + 13 : alpha.charCodeAt(0) - 13))).join("");
+}
+
+rot13("SERR PBQR PNZC");
