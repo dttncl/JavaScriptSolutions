@@ -1,0 +1,46 @@
+function checkCashRegister(price, cash, cid) {
+  let obj = {
+    "ONE HUNDRED": 100,
+    "TWENTY": 20,
+    "TEN": 10,
+    "FIVE": 5,
+    "ONE": 1,
+    "QUARTER": 0.25,
+    "DIME": 0.10,
+    "NICKEL": 0.05,
+    "PENNY": 0.01
+  }
+
+  let change = cash - price;
+  let changeArr = [];
+  let denom = Object.keys(obj);
+
+  if (change === cid.reduce((sum, element) => sum += element[1], 0)) {
+    return { status: "CLOSED", change: cid };
+
+  } else {
+
+    let sortedCID = cid.sort((a, b) => denom.indexOf(a[0]) - denom.indexOf(b[0]));
+    for (let cash in sortedCID) {
+
+      if (change >= obj[sortedCID[cash][0]] && sortedCID[cash][1] !== 0) {
+
+        let amt;
+        let mul = Math.floor(change.toFixed(2)/obj[sortedCID[cash][0]]);
+
+        if (change >= sortedCID[cash][1] && sortedCID[cash][1] != obj[sortedCID[cash][0]]) {
+          amt = sortedCID[cash][1];
+          changeArr.push([sortedCID[cash][0],amt]);
+          change -= amt.toFixed(2);
+
+        } else if (change < sortedCID[cash][1]) {
+          amt = obj[sortedCID[cash][0]] * mul;
+          changeArr.push([sortedCID[cash][0],amt]);
+          change -= amt.toFixed(2);
+        } 
+      }
+    }
+
+    return (changeArr.length > 0) ? { status: "OPEN", change: changeArr } : { status: "INSUFFICIENT_FUNDS", change: changeArr };
+  }
+}
